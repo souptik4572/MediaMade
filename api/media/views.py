@@ -24,7 +24,7 @@ def get_all_medias_of_logged_user(request):
         medias = Media.objects.filter(owner__id=request.user.id).all()
         return JsonResponse({
             'success': True,
-            'message': 'All questions of logged in user',
+            'message': 'All medias of logged in user',
             'medias': MediaSerializer(medias, many=True).data
         }, status=status.HTTP_200_OK)
     except Exception as e:
@@ -36,13 +36,12 @@ def get_all_medias_of_logged_user(request):
 
 @csrf_exempt
 @api_view(['GET'])
-@decorator_from_middleware(AuthStrategyMiddleware)
 def get_all_medias(request):
     try:
         medias = Media.objects.all()
         return JsonResponse({
             'success': True,
-            'message': 'All questions from the portal',
+            'message': 'All medias from the portal',
             'medias': MediaSerializer(medias, many=True).data
         })
     except Exception as e:
@@ -72,7 +71,7 @@ def create_new_media(request):
             link=link, caption=caption, type=type, owner=endUser)
         return JsonResponse({
             'success': True,
-            'message': 'Successfully created question',
+            'message': 'Successfully created media',
             'media': MediaSerializer(new_media).data
         }, status=status.HTTP_201_CREATED)
     except KeyError:
@@ -109,7 +108,7 @@ def edit_existing_media(request, media_id):
         existing_media.save()
         return JsonResponse({
             'success': True,
-            'message': 'Successfully updated question',
+            'message': 'Successfully updated media',
             'media': MediaSerializer(existing_media).data
         }, status=status.HTTP_200_OK)
     except Media.DoesNotExist:
@@ -134,7 +133,7 @@ def delete_existing_media(request, media_id):
         existing_media.delete()
         return JsonResponse({
             'success': True,
-            'message': 'Successfully deleted question',
+            'message': 'Successfully deleted media',
         }, status=status.HTTP_200_OK)
     except Media.DoesNotExist:
         return JsonResponse({
