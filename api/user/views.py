@@ -77,13 +77,10 @@ def register_end_user(request):
     try:
         name = data['name']
         email = data['email']
-        phone = data['phone']
         password = data['password']
-        description = data['description']
-        profile_image = data['profile_image']
         hashed_password = hash_item(password)
-        endUser = EndUser.objects.create(name=name, email=email, phone=phone, password=hashed_password,
-                                         description=description, profile_image=profile_image)
+        endUser = EndUser.objects.create(
+            name=name, email=email,  password=hashed_password)
         return JsonResponse({
             'success': True,
             'message': 'Successfully registered end user',
