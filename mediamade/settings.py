@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'api',
     'api.user',
     'api.media',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

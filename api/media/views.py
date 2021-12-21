@@ -91,12 +91,12 @@ def create_new_media(request):
 @api_view(['PATCH'])
 @decorator_from_middleware(AuthStrategyMiddleware)
 def edit_existing_media(request, media_id):
-    data = json.loads(request.body)
+    data = request.POST
     try:
         existing_media = Media.objects.get(
             id=media_id, owner__id=request.user.id)
-        if 'link' in data:
-            existing_media.link = data['link']
+        if 'file' in request.FILES:
+            existing_media.file = request.FILES['file']
         if 'caption' in data:
             existing_media.caption = data['caption']
         if 'type' in data:
