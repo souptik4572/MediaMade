@@ -55,10 +55,11 @@ def get_all_medias(request):
 @api_view(['PUT'])
 @decorator_from_middleware(AuthStrategyMiddleware)
 def create_new_media(request):
-    data = json.loads(request.body)
+    data = request.POST
     try:
-        link = data['link']
         caption = data['caption']
+        file = request.FILES['file']
+        type = data['type']
         if 'type' in data:
             if data['type'] not in (IMAGE, AUDIO, VIDEO):
                 return JsonResponse({
@@ -68,7 +69,7 @@ def create_new_media(request):
             type = data['type']
         endUser = request.user
         new_media = Media.objects.create(
-            link=link, caption=caption, type=type, owner=endUser)
+            file=file, caption=caption, type=type, owner=endUser)
         return JsonResponse({
             'success': True,
             'message': 'Successfully created media',

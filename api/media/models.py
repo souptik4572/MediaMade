@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import FileExtensionValidator
 from ..constants.media_types import MEDIA_TYPES, IMAGE
 from ..user.models import EndUser
 
@@ -7,7 +7,8 @@ from ..user.models import EndUser
 
 
 class Media(models.Model):
-    link = models.CharField(max_length=500)
+    file = models.FileField(upload_to='', validators=[FileExtensionValidator(
+        allowed_extensions=['mp4', 'jpeg', 'png', 'mp3', 'jpg'])])
     caption = models.CharField(max_length=1000)
     type = models.CharField(
         max_length=5, choices=MEDIA_TYPES, default=IMAGE)
